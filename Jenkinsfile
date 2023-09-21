@@ -11,7 +11,7 @@ pipeline {
                         validResponseCodes: '201,422',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
-                        requestBody: payload,
+                        requestBody: 'bla',
                         url: "https://test.example.com"
                     )
                     echo "This line should NOT be executed"
