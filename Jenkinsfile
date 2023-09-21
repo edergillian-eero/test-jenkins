@@ -7,7 +7,6 @@ pipeline {
                 retry (2) {
                     httpRequest(
                         acceptType: 'APPLICATION_JSON',
-                        authentication: 'eero-jenkins-pr-token',
                         validResponseCodes: '201,422',
                         contentType: 'APPLICATION_JSON',
                         httpMode: 'POST',
