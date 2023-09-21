@@ -4,11 +4,8 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                int retries = 0
                 retry (10) {
-                    if (retries > 0) {
-                        sleep(retries * 2)
-                    }
+                    sleep(3)
                     retries = retries + 1
                     httpRequest(
                         validResponseCodes: '200',
