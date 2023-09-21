@@ -4,16 +4,18 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                retry (2) {
+                int retries = 0
+                retry (10) {
+                    if (retries > 0) {
+                        sleep(retries * 2)
+                    }
+                    retries = retries + 1
                     httpRequest(
-                        acceptType: 'APPLICATION_JSON',
-                        validResponseCodes: '201,422',
-                        contentType: 'APPLICATION_JSON',
-                        httpMode: 'POST',
-                        requestBody: 'bla',
-                        url: "https://test.example.com"
+                        validResponseCodes: '200',
+                        httpMode: 'GET',
+                        url: "http://localhost:8090"
                     )
-                    echo "This line should NOT be executed"
+                    echo "This line will be executed eventually"
                 }
             }
         }
