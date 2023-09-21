@@ -6,7 +6,6 @@ pipeline {
             steps {
                 retry (10) {
                     sleep(3)
-                    retries = retries + 1
                     httpRequest(
                         validResponseCodes: '200',
                         httpMode: 'GET',
