@@ -9,7 +9,7 @@ pipeline {
                     httpRequest(
                         validResponseCodes: '200',
                         httpMode: 'GET',
-                        url: "http://localhost:8090"
+                        url: "http://10.4.1.10/"
                     )
                     echo "This line will be executed eventually"
                 }
