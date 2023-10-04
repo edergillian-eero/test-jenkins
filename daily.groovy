@@ -13,7 +13,7 @@ node('master') {
     stage("Build") {
         subbuild = build(job: "downstream",
             parameters:
-                [$class: 'String', name: 'bootloaders_hardware', value: params.bootloaders_hardware],
+                string(name: 'bootloaders_hardware', value: params.bootloaders_hardware),
             wait: true,
             propagate: true)
     }
