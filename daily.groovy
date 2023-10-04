@@ -13,7 +13,7 @@ node('master') {
     stage("Build") {
         subbuild = build(job: "downstream",
             parameters:
-                [$class: 'ValidatingStringParameterDefinition', name: 'bootloaders_hardware', value: params.bootloaders_hardware],
+                [$class: 'String', name: 'bootloaders_hardware', value: params.bootloaders_hardware],
             wait: true,
             propagate: true)
     }
