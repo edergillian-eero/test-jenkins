@@ -1,6 +1,5 @@
 def BRANCH_CHOICES = ['main', 'build', 'testing']
-pipeline {
-    agent any
+node('master') {
     properties([
         parameters([
             [$class                 : 'ValidatingStringParameterDefinition',
@@ -11,13 +10,11 @@ pipeline {
                 regex                  : '.*'],
         ]),
     ])
-    stages {  
-        stage("Build") {
-            subbuild = build(job: "downstream",
-                parameters:
-                     [$class: 'ValidatingStringParameterValue', name: 'bootloaders_hardware', value: params.bootloaders_hardware],
-                wait: true,
-                propagate: true)
-        }
+    stage("Build") {
+        subbuild = build(job: "downstream",
+            parameters:
+                [$class: 'ValidatingStringParameterValue', name: 'bootloaders_hardware', value: params.bootloaders_hardware],
+            wait: true,
+            propagate: true)
     }
 }
