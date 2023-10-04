@@ -41,7 +41,7 @@ node('master') {
     ])
     stage("Build") {
         try {
-            echo "${params.bootladers_hardware}"
+            echo "${params.bootloaders_hardware}"
             bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
             if (bl_hardwares.contains('all')) {
                 bl_hardwares = HARDWARES
