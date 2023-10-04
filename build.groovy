@@ -28,8 +28,7 @@ def validateParam(param, valid) {
     return items
 }
 
-pipeline {
-    agent any
+node('master') {
     properties([
         parameters([
             [$class                 : 'ValidatingStringParameterDefinition',
@@ -42,17 +41,15 @@ pipeline {
     ])
     stages {  
         stage("Build") {
-            steps {
-                try {
-                    echo "${params.bootladers_hardware}"
-                    bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
-                    if (bl_hardwares.contains('all')) {
-                        bl_hardwares = HARDWARES
-                    }
-                    echo "${bl_hardwares}"
-                } catch(err) {
-                    echo "Caught: ${err}"
+            try {
+                echo "${params.bootladers_hardware}"
+                bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
+                if (bl_hardwares.contains('all')) {
+                    bl_hardwares = HARDWARES
                 }
+                echo "${bl_hardwares}"
+            } catch(err) {
+                echo "Caught: ${err}"
             }
         }
     }
