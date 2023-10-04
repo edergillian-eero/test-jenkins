@@ -42,14 +42,16 @@ pipeline {
     ])
     stages {  
         stage("Build") {
-            sh "echo ${params.bootladers_hardware}"
-            try {
-              bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
-              if (bl_hardwares.contains('all')) {
-                  bl_hardwares = HARDWARES
-              }
-            } catch(err) {
-              echo "Caught: ${err}"
+            steps {
+                sh "echo ${params.bootladers_hardware}"
+                try {
+                    bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
+                    if (bl_hardwares.contains('all')) {
+                        bl_hardwares = HARDWARES
+                    }
+                } catch(err) {
+                    echo "Caught: ${err}"
+                }
             }
         }
     }
