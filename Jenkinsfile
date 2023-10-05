@@ -9,7 +9,7 @@ pipeline {
                     httpRequest(
                         validResponseCodes: '200',
                         httpMode: 'GET',
-                        url: "http://10.4.1.10/"
+                        url: "http://test-nginx/"
                     )
                     echo "This line will be executed eventually"
                 }
