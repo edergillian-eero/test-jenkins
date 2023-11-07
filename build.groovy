@@ -44,7 +44,7 @@ def validateParam(param, valid) {
     return items
 }
 
-if (numChangedFiles > 0) {
+//if (numChangedFiles > 0) {
     node('master') {
         properties([
             parameters([
@@ -69,4 +69,4 @@ if (numChangedFiles > 0) {
             }
         }
     }
-}
+//}
