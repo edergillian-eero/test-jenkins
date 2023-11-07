@@ -7,7 +7,7 @@ def runPipeline() {
       returnStdout: true
    ).trim()
    echo "Current changeset: ${CHANGE_SET}"
-   return (CHANGE_SET !=~ "scripts/release/(.*)")
+   return (CHANGE_SET ==~ "scripts/release/(.*)")
 }
 
 def tokenizeAndTrim(string, token) {
