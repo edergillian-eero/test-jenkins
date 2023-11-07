@@ -36,7 +36,6 @@ def validateParam(param, valid) {
     return items
 }
 
-if (runPipeline()) {
     node('master') {
         properties([
             parameters([
@@ -48,6 +47,7 @@ if (runPipeline()) {
                     regex                  : '.*'],
             ]),
         ])
+        if (runPipeline()) {
         stage("Build") {
             try {
                 echo "${params.bootloaders_hardware}"
@@ -60,5 +60,5 @@ if (runPipeline()) {
                 echo "Caught: ${err}"
             }
         }
+        }
     }
-}
