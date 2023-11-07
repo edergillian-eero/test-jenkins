@@ -10,6 +10,7 @@ for (int i = 0; i < changeLogSets.size(); i++) {
     def files = new ArrayList(entry.affectedFiles)
     for (int k = 0; k < files.size(); k++) {
       def file = files[k]
+      println file.path
       if (! "scripts/release/" in file.path) {
         numChangeFiles = numChangedFiles + 1
       }
