@@ -11,7 +11,7 @@ for (int i = 0; i < changeLogSets.size(); i++) {
     for (int k = 0; k < files.size(); k++) {
       def file = files[k]
       println file.path
-      if (! "scripts/release/" in file.path) {
+      if (! file.path.startsWith("scripts/release/")) {
         numChangeFiles = numChangedFiles + 1
       }
     }
@@ -44,7 +44,7 @@ def validateParam(param, valid) {
     return items
 }
 
-//if (numChangedFiles > 0) {
+if (numChangedFiles > 0) {
     node('master') {
         properties([
             parameters([
@@ -69,4 +69,4 @@ def validateParam(param, valid) {
             }
         }
     }
-//}
+}
