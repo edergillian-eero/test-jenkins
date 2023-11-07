@@ -11,6 +11,11 @@ node('master') {
         ]),
     ])
     stage("Build") {
+        when {
+            not {
+                changeset "scripts/*"
+            }
+        }
         subbuild = build(job: "downstream",
             // parameters: [
             //     [$class: 'ValidatingStringParameterValue', name: 'bootloaders_hardware', value: params.bootloaders_hardware],
