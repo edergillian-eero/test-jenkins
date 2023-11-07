@@ -40,6 +40,11 @@ node('master') {
         ]),
     ])
     stage("Build") {
+        when {
+            not {
+                changeset "scripts/*"
+            }
+        }
         try {
             echo "${params.bootloaders_hardware}"
             bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
