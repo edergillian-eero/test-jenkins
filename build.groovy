@@ -1,21 +1,13 @@
 HARDWARES = ["test", "echo", "ball" ]
 VALID_HARDWARES = "all" + HARDWARES
 
-def numChangedFiles = 0
-def changeLogSets = currentBuild.changeSets
-for (int i = 0; i < changeLogSets.size(); i++) {
-  def entries = changeLogSets[i].items
-  for (int j = 0; j < entries.length; j++) {
-    def entry = entries[j]
-    def files = new ArrayList(entry.affectedFiles)
-    for (int k = 0; k < files.size(); k++) {
-      def file = files[k]
-      println file.path
-      if (! "scripts/release/" in file.path) {
-        numChangeFiles = numChangedFiles + 1
-      }
-    }
-  }
+def runPipeline() {
+   CHANGE_SET = sh (
+      script: 'git log -2 --name-only --oneline --pretty="format:"',
+      returnStdout: true
+   ).trim()
+   echo "Current changeset: ${CHANGE_SET}"
+   return (CHANGE_SET !=~ "scripts/release/(.*)")
 }
 
 def tokenizeAndTrim(string, token) {
@@ -44,7 +36,6 @@ def validateParam(param, valid) {
     return items
 }
 
-if (numChangedFiles > 0) {
     node('master') {
         properties([
             parameters([
@@ -56,17 +47,21 @@ if (numChangedFiles > 0) {
                     regex                  : '.*'],
             ]),
         ])
-        stage("Build") {
-            try {
-                echo "${params.bootloaders_hardware}"
-                bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
-                if (bl_hardwares.contains('all')) {
-                    bl_hardwares = HARDWARES
-                }
-                echo "${bl_hardwares}"
-            } catch(err) {
-                echo "Caught: ${err}"
-            }
+        stage("Checkout") {
+           checkout scm
+        }
+        if (runPipeline()) {
+           stage("Build") {
+               try {
+                   echo "${params.bootloaders_hardware}"
+                   bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
+                   if (bl_hardwares.contains('all')) {
+                       bl_hardwares = HARDWARES
+                   }
+                   echo "${bl_hardwares}"
+               } catch(err) {
+                   echo "Caught: ${err}"
+               }
+           }
         }
     }
-}
