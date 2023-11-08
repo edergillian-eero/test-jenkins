@@ -47,18 +47,21 @@ def validateParam(param, valid) {
                     regex                  : '.*'],
             ]),
         ])
-        if (runPipeline()) {
-        stage("Build") {
-            try {
-                echo "${params.bootloaders_hardware}"
-                bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
-                if (bl_hardwares.contains('all')) {
-                    bl_hardwares = HARDWARES
-                }
-                echo "${bl_hardwares}"
-            } catch(err) {
-                echo "Caught: ${err}"
-            }
+        stage("Checkout") {
+           checkout scm
         }
+        if (runPipeline()) {
+           stage("Build") {
+               try {
+                   echo "${params.bootloaders_hardware}"
+                   bl_hardwares = validateParam(params.bootloaders_hardware, VALID_HARDWARES)
+                   if (bl_hardwares.contains('all')) {
+                       bl_hardwares = HARDWARES
+                   }
+                   echo "${bl_hardwares}"
+               } catch(err) {
+                   echo "Caught: ${err}"
+               }
+           }
         }
     }
